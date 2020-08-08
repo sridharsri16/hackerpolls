@@ -1,0 +1,249 @@
+<nav class="navbar navbar-light bg-light">
+    <!-- <a class="navbar-brand" href="#">
+        <img src="/docs/4.2/assets/brand/bootstrap-solid.svg" width="30" height="30" alt="">
+    </a> -->
+    <div class="col-6">
+        <h1><b>Hacker Polls</b></h1>
+    </div>
+    <div class="col-6">
+        <button style="float: right;margin-right: 10px;margin-top: 10px;" type="button" class="btn btn-dark"
+            data-toggle="modal" data-target=".bd-example-modal-sm" *ngIf="!loggedin">Login</button>
+
+        <button style="float: right;margin-right: 10px;margin-top: 10px;" type="button" class="btn btn-dark"
+            (click)="logout()" *ngIf="loggedin">Logout</button>
+
+        <a *ngIf="candidatecrud" class="btn btn-success" style="float: right;margin-right: 10px;margin-top: 10px;"
+            routerLink='/candidatecrud'><i class="fa fa-info"></i> Candidate Details</a>
+
+        <a *ngIf="candidateedit" class="btn btn-success" style="float: right;margin-right: 10px;margin-top: 10px;"
+            data-toggle="modal" data-target="#myModaledit" (click)="transferid()"><i class="fa fa-info"></i> Edit
+            Details</a>
+    </div>
+</nav>
+
+
+<!-- <div class="containerr-fluid">
+    <div class="row">
+        <div class="col-12" style="width:100% ;height: 200px;">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner" style=" width:100%; height: 500px !important;">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src="./assets/DlL5pz.jpg" alt="First slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="./assets/votebg.jpg" alt="Second slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="./assets/vote.jpg" alt="Third slide">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<br><br>
+<div class="container">
+    <div class="row">
+        <div class="col-4" *ngFor="let i of listData; index as sno">
+            <div class="card">
+                <img class="card-img-top" src="./assets/icon-hacker-1.jpg" alt="Card image cap" data-toggle="modal"
+                    (click)="transferid(i.candidateid)" data-target=".bd-example-modal-lg">
+                <div class="card-body">
+                    <h5 class="card-title">{{i.name}} <i class="fa fa-heart"></i> {{i.votecount}}
+                    </h5>
+                    <a (click)="vote(i.candidateid)" style="float: right;"><i class="fa fa-thumbs-up"></i> Vote </a>
+                </div>
+            </div><br><br>
+        </div>
+    </div>
+</div>
+
+<!-- Large modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button> -->
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Candidate Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form [formGroup]="voteform">
+                <div class="modal-body">
+                    <img class="card-img-top mx-auto d-block" style=" width:50%; height: 50% !important;"
+                        src="./assets/icon-hacker-1.jpg" alt="Card image cap">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5>Candidate Name: {{formcontrols.name.value }}</h5>
+                        </div>
+                        <div class="col-6">
+                            <h5 style="float: right;">Challenges Solved:
+                                {{formcontrols.challengessolved.value }}</h5>
+                        </div>
+                    </div>
+                    <br><br>
+                    <table class="table table-striped table-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Data Structure</th>
+                                <th scope="col">Algorithm</th>
+                                <th scope="col">C</th>
+                                <th scope="col">Java</th>
+                                <th scope="col">Python</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{formcontrols.ds.value }}</td>
+                                <td>{{formcontrols.algorithm.value }}</td>
+                                <td>{{formcontrols.c.value }}</td>
+                                <td>{{formcontrols.java.value }}</td>
+                                <td>{{formcontrols.phyton.value }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <p><b>If you like this candidate score. Kindly vote him in HOME PAGE</b></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id=myModal style="margin-top: 10%;" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog"
+    aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Login</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form [formGroup]="loginform">
+                <div class="row">
+                    <div class="col-11">
+                        <div class="form-group">
+                            <label style="margin-left: 10px;" for="exampleInputEmail1">Email username</label>
+                            <input style="margin-left: 10px;" type="text" class="form-control" name="username"
+                                formControlName="username" placeholder="Enter username">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-11">
+                        <div class="form-group">
+                            <label style="margin-left: 10px;" for="exampleInputPassword1">Password</label>
+                            <input style="margin-left: 10px;" type="password" class="form-control" name="password"
+                                formControlName="password" placeholder="Enter Password">
+                        </div>
+                    </div>
+                </div>
+                <button (click)="login()" style="float: right; margin-bottom: 10px; margin-right: 10px;" type="submit"
+                    class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    id=myModaledit aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top: 60px;">
+            <div class="modal-header">
+                <div class="col-6">
+                    <h5 class="modal-title"> Enter Candidate Details</h5>
+                </div>
+                <button type=" button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form [formGroup]="candidateform">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Username *</label>
+                                <input type="text" class="form-control" placeholder="Enter username"
+                                    formControlName="name">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Password *</label>
+                                <input type="text" class="form-control" placeholder="Enter password"
+                                    formControlName="password">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Challenges solved *</label>
+                                <input type="text" class="form-control" placeholder="On scale of 1 to 5"
+                                    formControlName="challengessolved">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Expert level *</label>
+                                <input type="text" class="form-control" placeholder="On scale of 1 to 5"
+                                    formControlName="expertlevel">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>Data structure </label>
+                                <input type="text" class="form-control" placeholder="1 to 5" formControlName="ds">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>Algorithm </label>
+                                <input type="text" class="form-control" placeholder="1 to 5"
+                                    formControlName="algorithm">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>C </label>
+                                <input type="text" class="form-control" placeholder="1 to 5" formControlName="c">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>Java </label>
+                                <input type="text" class="form-control" placeholder="1 to 5" formControlName="java">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>Python</label>
+                                <input type="text" class="form-control" placeholder="1 to 5" formControlName="phyton">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-6">
+                        <p><b>* Mentioned fields are mandatory</b></p>
+                    </div>
+                    <div class="col-6">
+                        <a class="btn btn-success" style="float: right;"
+                            (click)="update(canndidateformcontrols.candidateid.value)">
+                            <i class=" fa fa-briefcase"></i>
+                            Save</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
