@@ -58,13 +58,14 @@ export class CandidatecrudComponent implements OnInit {
   }
 
   getcandidate() {
-    this.subscribedData = this._service.getList('api/Candidate').subscribe(
+    this.subscribedData = this._service.getList('api/candidate').subscribe(
       (response) => {
+        console.log("candidate", response)
         debugger;
         let data = [];
         this.listData = response;
         data = this.listData;
-        this.listData = data.filter(data => data['role'] === "candidate");
+        this.listData = data.filter(data => data['isadmin'] === false);
         console.log(this.listData)
       }, (error) => {
 
@@ -73,12 +74,13 @@ export class CandidatecrudComponent implements OnInit {
 
   insert() {
     debugger
-    let data = [];
-    data.push(this.candidateform.value);
+    // let data = [];
+    // data.push(this.candidateform.value);
     this.candidateform.value['role'] =
       this.role == "admin" ? this.role : "candidate";
-    this.subscribedData = this._service.insert(data, 'api/Candidate').subscribe(
+    this.subscribedData = this._service.insert(this.candidateform.value, 'api/candidate').subscribe(
       (response) => {
+        console.log(response)
         debugger;
         this.getcandidate()
         let msg = {
@@ -94,8 +96,9 @@ export class CandidatecrudComponent implements OnInit {
   }
 
   delete(id) {
-    this.subscribedData = this._service.delete(id, 'api/Candidate').subscribe(
+    this.subscribedData = this._service.delete(id, 'api/candidate').subscribe(
       (response) => {
+        console.log(response)
         debugger;
         this.getcandidate();
         let msg = {
