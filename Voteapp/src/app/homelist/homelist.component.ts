@@ -53,7 +53,7 @@ export class HomelistComponent implements OnInit {
       phyton: [''],
     });
     this.loginform = this.formBuilder.group({
-      name: [''],
+      username: [''],
       password: [''],
     });
     this.candidateform = this.formBuilder.group({
@@ -73,14 +73,13 @@ export class HomelistComponent implements OnInit {
   }
 
   getcandidate() {
-    this.subscribedData = this._service.getList('api/candidate').subscribe(
+    this.subscribedData = this._service.getList('api/Candidate').subscribe(
       (response) => {
         debugger;
-        console.log(response)
         let data = [];
         this.listData = response;
         data = this.listData;
-        this.listData = data.filter(data => data['isadmin'] === false);
+        this.listData = data.filter(data => data['role'] === "candidate");
         console.log(this.listData)
       }, (error) => {
 
@@ -92,9 +91,8 @@ export class HomelistComponent implements OnInit {
       id = JSON.parse(localStorage.getItem("details"))['candidateid']
       this.editmodel = true;
     }
-    this.subscribedData = this._service.getById(id, 'api/candidate').subscribe(
+    this.subscribedData = this._service.getById(id, 'api/Candidate').subscribe(
       (response) => {
-        console.log(response)
         debugger;
         if (this.editmodel) {
           this.candidateform.patchValue(response);
@@ -136,12 +134,11 @@ export class HomelistComponent implements OnInit {
           whovoted: localdata['candidateid'],
           votedfor: votedforid
         }
-        this.subscribedData = this._service.insert(votedata, 'api/vote').subscribe(
+        this.subscribedData = this._service.insert(votedata, 'api/values').subscribe(
           (response) => {
             debugger;
-            console.log(response)
             localStorage.setItem("details", JSON.stringify(response))
-            this.listData = null;
+            this.listData=null;
             this.getcandidate();
             let msg = {
               messagestype: 1,
@@ -157,11 +154,10 @@ export class HomelistComponent implements OnInit {
 
   update(id) {
     debugger
-    this.subscribedData = this._service.update(id, this.candidateform.value, 'api/candidate').subscribe(
+    this.subscribedData = this._service.update(id, this.candidateform.value, 'api/Candidate').subscribe(
       (response) => {
         debugger;
-        console.log(response)
-        this.listData = null
+        this.listData=null
         this.getcandidate()
         let msg = {
           messagestype: 1,
@@ -177,14 +173,13 @@ export class HomelistComponent implements OnInit {
 
   login() {
 
-    this.subscribedData = this._service.insert(this.loginform.value, 'api/user').subscribe(
+    this.subscribedData = this._service.insert(this.loginform.value, 'api/User').subscribe(
       (response) => {
         debugger;
-        console.log(response)
-        if (response['candidateid'] != null||response['id']!= null ) {
+        if (response['candidateid'] != null) {
           localStorage.setItem("details", JSON.stringify(response))
           this.loggedin = true;
-          if (response['isadmin'] == true) {
+          if (response['role'] == "admin") {
             this.candidatecrud = true;
           } else {
             this.candidateedit = true;

@@ -27,16 +27,16 @@
         <tbody>
             <tr *ngFor="let i of listData; index as sno">
                 <td>{{i.name }}</td>
-                <td>{{i.candidatedetail.challengessolved}}</td>
-                <td>{{i.candidatedetail.expertlevel}}</td>
-                <td>{{i.candidatedetail.ds }}</td>
-                <td>{{i.candidatedetail.algorithm}}</td>
-                <td>{{i.candidatedetail.c}}</td>
-                <td>{{i.candidatedetail.java}}</td>
-                <td>{{i.candidatedetail.phyton}}</td>
+                <td>{{i.challengessolved}}</td>
+                <td>{{i.expertlevel}}</td>
+                <td>{{i.ds }}</td>
+                <td>{{i.algorithm}}</td>
+                <td>{{i.c}}</td>
+                <td>{{i.java}}</td>
+                <td>{{i.phyton}}</td>
                 <td>{{i.votecount}}</td>
 
-                <td><a (click)="delete(i.candidatedetail.id)"><i class="fa fa-trash"></i></a></td>
+                <td><a (click)="delete(i.candidateid)"><i class="fa fa-trash"></i></a></td>
             </tr>
         </tbody>
     </table>
