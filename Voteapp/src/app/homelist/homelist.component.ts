@@ -89,7 +89,7 @@ export class HomelistComponent implements OnInit {
   transferid(id) {
     debugger
     if (id == "" || id == undefined || id == null) {
-      id = JSON.parse(localStorage.getItem("details"))['candidateid']
+      id = JSON.parse(localStorage.getItem("details"))['loginid']
       this.editmodel = true;
     }
     this.subscribedData = this._service.getById(id, 'api/candidate').subscribe(
@@ -97,11 +97,14 @@ export class HomelistComponent implements OnInit {
         console.log(response)
         debugger;
         if (this.editmodel) {
+          this.candidateform.patchValue(response);
           this.candidateform.patchValue(response['candidatedetail']);
           this.voteform.patchValue(response);
+          this.voteform.patchValue(response['candidatedetail']);
         }
         else {
           this.voteform.patchValue(response);
+          this.voteform.patchValue(response['candidatedetail']);
         }
         console.log(response)
       }, (error) => {
