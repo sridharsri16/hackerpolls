@@ -86,7 +86,7 @@ export class HomelistComponent implements OnInit {
       })
   }
   transferid(id) {
-    debugger
+    debugger 
     if (id == "" || id == undefined || id == null) {
       id = JSON.parse(localStorage.getItem("details"))['candidateid']
       this.editmodel = true;
