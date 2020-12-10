@@ -47,11 +47,12 @@
         <div class="col-4" *ngFor="let i of listData; index as sno">
             <div class="card">
                 <img class="card-img-top" src="./assets/icon-hacker-1.jpg" alt="Card image cap" data-toggle="modal"
-                    (click)="transferid(i.candidateid)" data-target=".bd-example-modal-lg">
+                    (click)="transferid(i.candidatedetail.loginid)" data-target=".bd-example-modal-lg">
                 <div class="card-body">
                     <h5 class="card-title">{{i.name}} <i class="fa fa-heart"></i> {{i.votecount}}
                     </h5>
-                    <a (click)="vote(i.candidateid)" style="float: right;"><i class="fa fa-thumbs-up"></i> Vote </a>
+                    <a (click)="vote(i.id)" style="float: right;"><i class="fa fa-thumbs-up"></i> Vote
+                    </a>
                 </div>
             </div><br><br>
         </div>
@@ -76,11 +77,11 @@
                     <img class="card-img-top mx-auto d-block" style=" width:50%; height: 50% !important;"
                         src="./assets/icon-hacker-1.jpg" alt="Card image cap">
                     <div class="row">
-                        <div class="col-6">
+                        <!-- <div class="col-6">
                             <h5>Candidate Name: {{formcontrols.name.value }}</h5>
-                        </div>
-                        <div class="col-6">
-                            <h5 style="float: right;">Challenges Solved:
+                        </div> -->
+                        <div class="col-12">
+                            <h5 style="text-align: center;">Challenges Solved:
                                 {{formcontrols.challengessolved.value }}</h5>
                         </div>
                     </div>
@@ -130,7 +131,7 @@
                         <div class="form-group">
                             <label style="margin-left: 10px;" for="exampleInputEmail1">Email username</label>
                             <input style="margin-left: 10px;" type="text" class="form-control" name="username"
-                                formControlName="username" placeholder="Enter username">
+                                formControlName="name" placeholder="Enter username">
                         </div>
                     </div>
                 </div>
@@ -238,7 +239,7 @@
                     </div>
                     <div class="col-6">
                         <a class="btn btn-success" style="float: right;"
-                            (click)="update(canndidateformcontrols.candidateid.value)">
+                            (click)="update(canndidateformcontrols.id.value)">
                             <i class=" fa fa-briefcase"></i>
                             Save</a>
                     </div>
