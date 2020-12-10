@@ -143,7 +143,14 @@ export class HomelistComponent implements OnInit {
           (response) => {
             debugger;
             console.log(response)
-            localStorage.setItem("details", JSON.stringify(response))
+            if (response['msg'] == 'admin') {
+              let data = JSON.parse(localStorage.getItem("details"))
+              data['voted'] = true;
+              localStorage.setItem("details", JSON.stringify(data))
+            }
+            else {
+              localStorage.setItem("details", JSON.stringify(response))
+            }
             this.listData = null;
             this.getcandidate();
             let msg = {
